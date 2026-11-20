@@ -1,0 +1,174 @@
+/* === RESET === */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+h1, p {
+  text-wrap: pretty;
+}
+img, picture, svg, video {
+  display: block;
+  max-width: 100%;
+}
+span, input, textarea, button, select {
+  font: inherit;
+  color: inherit;
+}
+textarea {
+  resize: vertical;
+}
+button {
+  border: none;
+}
+a {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+}
+ol, ul {
+  list-style: none;
+  padding: 0;
+}
+html {
+  scroll-padding-top: 2.625rem;
+  @media (prefers-reduced-motion: no-preference) { scroll-behavior: smooth; }
+}
+/* --- reset --- */
+
+/* === CUSTOM PROPERTIES === */
+:root {
+  --neutral-50: hsl(0, 0%, 100%);
+  --neutral-100: hsl(0, 0%, 95%);
+  --neutral-200: hsl(0, 0%, 90%);
+  --neutral-300: hsl(0, 0%, 85%);
+  --neutral-400: hsl(0, 0%, 80%);
+  --neutral-500: hsl(0, 0%, 50%);
+  --neutral-600: hsl(0, 0%, 20%);
+  --neutral-700: hsl(0, 0%, 15%);
+  --neutral-800: hsl(0, 0%, 10%);
+  --neutral-900: hsl(0, 0%, 5%);
+  --neutral-950: hsl(0, 0%, 0%);
+}
+/* --- custom properties --- */
+
+/* === BASE LAYOUT === */
+body {
+  --padding: 26px;
+  --max-width: 1300px;
+
+  --full: minmax(var(--padding), 1fr);
+  --content: min(var(--max-width), 100% - var(--padding) * 2);
+
+  header, footer { padding-inline: calc((100% - var(--content)) / 2); }
+
+  main {
+    display: grid;
+    grid-template-columns: [full-start] var(--full) [content-start] var(--content) [content-end] var(--full) [full-end];
+  
+    > *, > .full-width > * { grid-column: content; }
+    > .full-width { grid-column: full; display: grid; grid-template-columns: inherit; }
+  }
+}
+
+header {
+  --clr-closed: var(--neutral-50);
+  --clr-open: var(--neutral-100);
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 1.25rem;
+
+  img { height: 2.625rem; }
+  ul { display: flex; gap: 16px; } 
+
+  .desktop-view {
+    display: none;
+    ul { align-items: center; }
+  }
+
+  .mobile-view {
+    nav {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      left: 0;
+      padding-inline: max(var(--padding), (100% - var(--content)) / 2);
+      padding-bottom: 1.625rem;
+      justify-content: end;
+
+      clip-path: inset(0 0 100% 0);
+      visibility: hidden;
+      
+      transition: clip-path 250ms ease-in, visibility 250ms;
+
+      ul { flex-direction: column; align-items: end; }
+    }
+
+    button {
+      background-color: transparent;
+      padding: 0;
+      border: none;
+
+      display: flex;
+      align-items: center;
+
+      &[aria-expanded="true"] + nav {
+        clip-path: inset(0);
+        visibility: visible;
+        transition: clip-path 250ms ease-out, visibility 0ms;
+      }
+      & + nav {
+        background-color: var(--clr-open);
+      }
+    }
+
+    rect {
+      transition: translate 200ms 200ms ease-out, rotate 200ms ease-in, opacity 0ms 200ms;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+  }
+
+  &:has(button[aria-expanded="true"]) {
+    rect.top { translate: 0 8px; rotate: -45deg; }
+    rect.mid { opacity: 0; }
+    rect.bot { translate:  0 -8px; rotate: 45deg; }
+    rect { transition: translate 200ms ease-in, rotate 200ms 200ms ease-out, opacity 0ms 200ms; }
+
+    background-color: var(--clr-open);
+    transition: background-color 0ms 0ms;
+  }
+
+  background-color: var(--clr-closed);
+  transition: background-color 0ms 250ms;
+
+  @media (width > 54em) {
+    .desktop-view { display: block; }
+    .mobile-view { display: none; }
+  }
+
+  z-index: 9999;
+}
+/* --- base layout --- */
+
+/* === UTILITIES === */
+.italic { font-style: italic; }
+.fw-100 { font-weight: 100; }
+.fw-200 { font-weight: 200; }
+.fw-300 { font-weight: 300; }
+.fw-400 { font-weight: 400; }
+.fw-500 { font-weight: 500; }
+.fw-600 { font-weight: 600; }
+.fw-700 { font-weight: 700; }
+.fw-800 { font-weight: 800; }
+.fw-900 { font-weight: 900; }
+
+.align-center { align-items: center; }
+
+.mw-1000 { max-width: 1000px; }
+.mw-1100 { max-width: 1100px; }
+.mw-1200 { max-width: 1200px; }
+.mw-1300 { max-width: 1300px; }
+.mi-auto { margin-inline: auto; }
+/* --- utilities --- */
