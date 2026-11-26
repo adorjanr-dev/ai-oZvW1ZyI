@@ -1,0 +1,867 @@
+/* ==========================================================================
+   Mobile-first stylesheet.
+
+   - Base styles target the smallest screens.
+   - Larger screens are layered on with `width >=` queries, nested inside the
+     rule they change. A nested query has exactly the same specificity as the
+     rule it sits in, so no !important is needed anywhere.
+
+   Breakpoints used: 32em · 38em · 48em · 54.01em · 64em · 70em
+
+   Exception: a few properties (marked "desktop value lives in the global CSS")
+   have their desktop value in another stylesheet, so there is nothing in this
+   file to go back to at larger widths. Those small-screen overrides use
+   `width <` queries so the other stylesheet keeps control on desktop.
+   ========================================================================== */
+
+
+#hero {
+  margin-top: 6px;
+
+  /* desktop value lives in the global CSS */
+  p {
+    @media (width < 64em) { font-size: .875rem; }
+  }
+
+  /* desktop value lives in the global CSS */
+  a {
+    @media (width < 64em) { font-size: 1rem; }
+    @media (width < 38em) { font-size: .875rem; }
+  }
+
+  .wrapper {
+    display: block;
+    @media (width >= 54.01em) {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+    }
+  }
+
+  .content {
+    .kicker {
+      padding-left: calc(1.625rem + .625em + 1ch);
+      padding-block: 1rem .625rem;
+      text-transform: uppercase; font-weight: 500;
+      position: relative;
+      &::before {
+        position: absolute;
+        content: '';
+        width: .625em;
+        height: .625em;
+        background-color: var(--primary-dark);
+        top: calc(.315em + 1rem);
+        left: 1.625rem;
+        @media (width >= 64em) { top: calc(.4em + 1rem); }
+      }
+    }
+    h1 {
+      padding: 1.625rem 1.625rem 1rem;
+      /* desktop value lives in the global CSS */
+      @media (width < 64em) { font-size: 3.125rem; }
+      @media (width < 54.01em) { font-size: 4rem; }
+      @media (width < 38em) { font-size: 3.125rem; }
+      @media (width < 32em) { font-size: 2rem; }
+    }
+    .description {
+      padding: .625rem 1.625rem;
+      color: var(--neutral-dark);
+      font-weight: 500;
+      /* desktop value lives in the global CSS */
+      @media (width < 64em) { font-size: .875rem; }
+      @media (width < 54.01em) { font-size: 1rem; }
+      @media (width < 32em) { font-size: .875rem; }
+    }
+    .buttons {
+      padding: 1.625rem 1.625rem 2.625rem;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: 26px;
+      > a:has(.to-right) {
+        position: relative;
+        .to-right {
+          position: absolute;
+          right: -4ch;
+          transition: all 200ms;
+        }
+        &:hover .to-right { right: -5.5ch; }
+      }
+      @media (width >= 32em) {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+  }
+
+  .media {
+    display: grid;
+    place-items: center;
+    padding-block: 1.625rem;
+    border-top: 1px solid var(--neutral);
+    background: repeating-linear-gradient(-45deg, var(--background-dark) 0 8px, transparent 8px 20px);
+
+    .img-container {
+      max-width: min(300px, 80%);
+      aspect-ratio: 1 / 1.25;
+      border: 2px solid var(--primary-darker);
+      position: relative;
+      img { height: 100%; width: 100%; object-fit: cover; }
+      div {
+        position: absolute;
+        background-color: var(--foreground);
+        border: 2px solid black;
+        box-shadow: 3px 3px 0 0 black;
+        p {
+          padding: 8px 12px 6px;
+          font-size: 16px; line-height: 1;
+          color: var(--background-dark);
+          span { color: var(--primary-dark); font-size: 20px; font-weight: 600; }
+        }
+      }
+      .bl {
+        bottom: -8px;
+        left: -10px;
+        background-color: var(--primary);
+        border-color: var(--primary-dark);
+        box-shadow: 3px 3px 0 0 var(--primary-darker);
+        p {
+          color: var(--foreground);
+          span { color: inherit; display: block; }
+        }
+      }
+      .uml {
+        top: 15%;
+        left: -20px;
+        p {
+          padding-left: 20px;
+          position: relative;
+          &::before {
+            position: absolute;
+            content: '';
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-dark);
+            top: 13px;
+            left: 6px;
+          }
+        }
+      }
+      .ur {
+        top: -8px;
+        right: -10px;
+      }
+      .mr {
+        top: 60%;
+        right: -16px;
+        span { display: block; }
+      }
+    }
+
+    @media (width >= 54.01em) {
+      padding-block: 0;
+      border-top: none;
+      border-left: 1px solid var(--neutral);
+      background: none;
+    }
+  }
+}
+
+
+#eredmenyek {
+  /* desktop value lives in the global CSS */
+  .section-header {
+    @media (width < 38em) {
+      display: block;
+      p { margin-top: .625rem; }
+      a { margin-top: 1rem; }
+    }
+  }
+
+  .cards, .cards-recent {
+    padding: 1.5rem 24px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .625rem;
+
+    > div {
+      padding: .6rem 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .card-header {
+        font-size: 3.125rem; font-weight: 700; line-height: 1;
+        &.xs { font-size: 2.5rem; }
+        &.sm { font-size: 2.625rem; }
+        @media (width >= 38em) {
+          &.xs { font-size: 1.625rem; }
+          &.sm { font-size: 2.125rem; }
+        }
+        @media (width >= 64em) {
+          font-size: 4.25rem;
+          &.xs { font-size: 2.625rem; }
+          &.sm { font-size: 3rem; }
+        }
+      }
+      .card-description {
+        margin-top: 1rem;
+        /* desktop value lives in the global CSS */
+        @media (width < 64em) { font-size: .875rem; }
+      }
+      &.bg-primary {
+        width: calc(100% - 1rem);
+      }
+      /* Stacked layout: cards are separated by a top border instead of dividers.
+         Must stay above .divider so the divider's padding: 0 wins. */
+      &:not(:first-child) {
+        border-top: 1px solid var(--neutral);
+        padding-top: 1rem;
+        @media (width >= 38em) {
+          border-top: none;
+          padding-top: .6rem;
+        }
+      }
+      &.divider {
+        padding: 0;
+        background-color: var(--neutral);
+        display: none;
+        @media (width >= 38em) { display: flex; }
+        &.hide-sm {
+          display: none;
+          @media (width >= 48em) { display: flex; }
+        }
+      }
+    }
+
+    @media (width >= 38em) { gap: 0; }
+  }
+  .cards {
+    @media (width >= 38em) {
+      grid-template-columns: 2fr 1px 2fr;
+      row-gap: 1rem;
+    }
+    @media (width >= 48em) {
+      grid-template-columns: 1fr 1px 1fr 1px 1fr 1px 1fr;
+      row-gap: 0;
+    }
+  }
+  .cards-recent {
+    .card-header { color: var(--primary-darker); }
+    @media (width >= 38em) {
+      grid-template-columns: 1fr 1px 1fr 1px 1fr;
+    }
+  }
+  .recent-header { padding: 1rem 24px .625rem; }
+}
+
+
+#szolgaltatasok {
+  /* desktop value lives in the global CSS */
+  .section-header {
+    @media (width < 38em) {
+      display: block;
+      p { margin-top: .625rem; }
+      a { margin-top: 1rem; }
+    }
+  }
+
+  .services {
+    display: block;
+    .divider {
+      background-color: var(--neutral);
+      height: 1px;
+      @media (width >= 48em) { height: auto; }
+    }
+    > div:not(.divider) {
+      padding: 1rem 24px 1.625rem;
+      h3 { font-size: 1.625rem; }
+      ul { margin-top: 1rem; list-style: square; list-style-position: inside; border-block: 1px solid var(--background-darker); }
+      li { padding-block: .875rem; }
+      li + li { border-top: 1px solid var(--background-darker); }
+      li::marker { color: var(--primary); }
+    }
+    @media (width >= 48em) {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+    }
+  }
+
+  .steps {
+    padding: 1rem 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 1rem;
+    > div { display: flex; flex-direction: column; align-items: center; }
+    .nr {
+      width: 4ch;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      font-size: 1.625rem;
+      font-weight: 500;
+      background-color: var(--foreground); color: var(--background);
+    }
+    .name {
+      margin-top: .5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: center;
+      @media (width >= 54.01em) { font-size: 1.25rem; }
+    }
+    .details {
+      font-weight: 300;
+      text-align: center;
+      /* desktop value lives in the global CSS */
+      @media (width < 54.01em) { font-size: .875rem; }
+    }
+    @media (width >= 32em) { grid-template-columns: repeat(3, 1fr); }
+    @media (width >= 48em) {
+      grid-template-columns: repeat(5, 1fr);
+      row-gap: 0;
+    }
+  }
+}
+
+
+#referenciak {
+  .bg-stripes {
+    padding-block: .75rem;
+    * { background-color: transparent; }
+  }
+  .marquee {
+    padding-block: .75rem;
+    --marquee-gap: 26px;
+
+    display: flex;
+    gap: var(--marquee-gap);
+  
+    overflow: hidden;
+    user-select: none;
+  
+    ul {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--marquee-gap);
+  
+      img {
+        height: 100px;
+        background-color: var(--neutral-dark);
+        border: 2px solid var(--foreground);
+        box-shadow: 4px 4px 0 0 var(--foreground);
+        &.p { padding: 12px; }
+      }
+
+      li {
+        padding: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        border: 2px solid var(--foreground);
+        box-shadow: 4px 4px 0 0 var(--foreground);
+        &:nth-child(odd) { background-color: var(--foreground); color: var(--primary-dark); }
+        &:nth-child(even) { background-color: var(--primary); color: var(--foreground); }
+        @media (width >= 32em) { font-size: 20px; }
+        @media (width >= 48em) { font-size: 26px; }
+      }
+
+      animation: marquee 60s linear infinite;
+    }
+
+    &.reverse ul { animation: marquee 60s linear infinite reverse; }
+  }
+}
+
+
+#velemenyek {
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 1rem 24px;
+    
+    > div {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      padding: 1.625rem 1rem 1rem;
+      border: 1px solid var(--background-darker);
+      .review { margin-bottom: 1rem; font-weight: 500; }
+      .author { margin-top: auto; color: var(--primary-darker); font-weight: 500; text-transform: uppercase; }
+    }
+
+    @media (width >= 32em) { grid-template-columns: 1fr 1fr; }
+    @media (width >= 48em) { grid-template-columns: 1fr 1fr 1fr; }
+  }
+}
+
+
+#kinek-valo {
+  .content {
+    padding-inline: 24px;
+    > * { margin-inline: auto; text-align: center; }
+    h3 {
+      margin-top: 2.625rem;
+      font-size: 2rem;
+      line-height: 1;
+      max-width: 27ch;
+      @media (width >= 48em) { font-size: 2.625rem; }
+    }
+    p {
+      margin-top: 1.25rem;
+      font-size: 1rem;
+      max-width: 77ch;
+      letter-spacing: .025em;
+      line-height: 1.2;
+      @media (width >= 48em) { font-size: 1.375rem; }
+    }
+    p + p { margin-top: 1rem; }
+    a {
+      margin-block: 2.125rem;
+      font-size: 1rem;
+      max-width: max-content;
+      display: block;
+      @media (width >= 48em) { font-size: 1.375rem; }
+    }
+  }
+}
+
+
+#rendszerek {
+  .divider {
+    padding: 0;
+    background-color: var(--neutral);
+    &.hide-xs {
+      display: none;
+      @media (width >= 32em) { display: block; }
+    }
+  }
+  .bt-xs {
+    border-top: 1px solid var(--neutral);
+    @media (width >= 32em) { border-top: none; }
+  }
+
+  .controls {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 2fr 1px 2fr;
+    border-inline: none;
+    div {
+      width: 100%;
+      input { display: none; }
+      label {
+        cursor: pointer;
+        padding: 1rem .8rem calc(1rem - 4px);
+        font-size: 1rem;
+        font-weight: 500;
+        display: block;
+        width: 100%;
+        @media (width >= 38em) { font-size: 1.25rem; }
+        @media (width >= 54.01em) { font-size: 1.625rem; }
+      }
+      label.active {
+        background-color: var(--background-dark);
+        border-bottom: 4px solid var(--primary-dark);
+      }
+      label:not(.active) {
+        border-bottom: 4px solid transparent;
+        @media (width >= 32em) { border-bottom: none; }
+      }
+    }
+    @media (width >= 32em) {
+      grid-template-columns: 1fr 1px 1fr 1px 1fr 1px 1fr;
+    }
+    @media (width >= 38em) {
+      margin: 0 24px;
+      border-inline: 1px solid var(--neutral);
+    }
+  }
+
+  .responses {
+    margin: 0 24px;
+    border-inline: 1px solid var(--neutral);
+
+    .response:not(.active) { display: none; }
+
+    .response {
+      display: block;
+      .divider {
+        height: 1px;
+        @media (width >= 48em) { height: auto; }
+      }
+      .side {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        img {
+          width: 40%;
+          display: none;
+          @media (width >= 48em) { display: block; }
+        }
+        a {
+          margin-top: 0;
+          width: 100%;
+          text-align: center;
+          @media (width >= 48em) { margin-top: 2.625rem; }
+        }
+      }
+      .text, .side { padding: 1rem 32px; }
+      .text p + p { margin-top: 1rem; }
+      ul {
+        margin-top: .625rem;
+        list-style-type: square;
+        list-style-position: inside;
+      }
+      @media (width >= 48em) {
+        display: grid;
+        grid-template-columns: 5fr 1px 3fr;
+      }
+    }
+  }
+}
+
+
+#hogyan-mukodik {
+  /* desktop value lives in the global CSS */
+  .section-header {
+    @media (width < 48em) {
+      display: block;
+      p { margin-top: .625rem; }
+      a { margin-top: 1rem; }
+    }
+  }
+
+  .demo-title {
+    text-align: center;
+    padding-block: 1rem;
+    button { margin-top: 1rem; }
+    .legend {
+      margin-top: 1.25rem;
+      font-size: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      > * { display: flex; gap: 6px; align-items: center; }
+      .in-progress {
+        div { width: 8px; height: 8px; background-color: #ffd280; }
+        p { color: orange; }
+      }
+      .done {
+        div { width: 8px; height: 8px; background-color: var(--primary); }
+        p { color: var(--primary-darker); }
+      }
+    }
+  }
+
+  .trees {
+    width: 100%;
+    margin-inline: 0;
+    border-inline: none;
+    display: block;
+
+    .divider {
+      width: 1px;
+      background-color: var(--neutral);
+    }
+    .m-container, .a-container {
+      padding-top: 1rem;
+      > p {
+        font-size: 1.125rem;
+        font-weight: 500;
+        text-align: center;
+        @media (width >= 32em) { font-size: 22px; }
+      }
+    }
+    img {
+      height: 20px;
+      @media (width >= 32em) { height: 30px; }
+      @media (width >= 70em) { height: 36px; }
+    }
+    .manual, .automated {
+      width: max-content;
+      margin-inline: auto;
+      padding: 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      p {
+        font-size: 12px;
+        @media (width >= 32em) { font-size: 14px; }
+      }
+      > div {
+        width: 36px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &.routes > div {
+          width: 60px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+  
+        position: relative;
+        &.start::after, &.decision::before, &.decision::after, &.finish::before, &.finish::after {
+          position: absolute;
+          content: '';
+          border-top: 2px dashed var(--neutral);
+          @media (width < 32em) { border-top: 1px dashed var(--neutral); }
+        }
+        &.start::after {
+          width: 16px; top: 18px; left: 40px;
+          @media (width >= 32em) { width: 20px; top: 24px; left: 54px; }
+          @media (width >= 70em) { width: 40px; top: 30px; left: 70px; }
+        }
+        &.decision::before {
+          width: 16px; top: 0px; left: 40px; rotate: -45deg;
+          @media (width >= 32em) { width: 32px; left: 48px; }
+          @media (width >= 70em) { width: 52px; left: 64px; }
+        }
+        &.decision::after {
+          width: 16px; top: 36px; left: 40px; rotate: 45deg;
+          @media (width >= 32em) { width: 32px; top: 48px; left: 48px; }
+          @media (width >= 70em) { width: 52px; top: 60px; left: 64px; }
+        }
+        &.finish::before {
+          width: 16px; top: 0px; right: 40px; rotate: 45deg;
+          @media (width >= 32em) { width: 32px; right: 48px; }
+          @media (width >= 70em) { width: 52px; right: 64px; }
+        }
+        &.finish::after {
+          width: 16px; top: 36px; right: 40px; rotate: -45deg;
+          @media (width >= 32em) { width: 32px; top: 48px; right: 48px; }
+          @media (width >= 70em) { width: 52px; top: 60px; right: 64px; }
+        }
+
+        @media (width >= 32em) { width: 48px; }
+        @media (width >= 70em) { width: 60px; }
+      }
+      .node {
+        width: 36px;
+        height: 36px;
+        background-color: var(--background-dark);
+        display: grid;
+        place-items: center;
+        font-size: 18px;
+        font-weight: 500;
+        @media (width >= 32em) { width: 48px; height: 48px; font-size: 28px; }
+        @media (width >= 70em) { width: 60px; height: 60px; font-size: 32px; }
+      }
+      .route-b { margin-top: 10px; }
+
+      @media (width >= 32em) {
+        margin-inline: 0;
+        padding: 2rem 2.625rem;
+        gap: 32px;
+      }
+      @media (width >= 70em) { gap: 60px; }
+    }
+
+    @media (width >= 32em) {
+      width: max-content;
+      margin-inline: auto;
+      border-inline: 1px solid var(--neutral);
+    }
+    @media (width >= 54.01em) {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+    }
+  }
+
+  .addition { padding: .625rem 24px; font-size: .75rem; }
+}
+
+
+#cta {
+  /* desktop value lives in the global CSS */
+  p {
+    @media (width < 32em) { font-size: .75rem; }
+  }
+
+  .bg-stripes {
+    padding: 4rem 10px;
+    background: repeating-linear-gradient(-45deg, #C4E88A40 0 8px, transparent 8px 20px);
+    @media (width >= 32em) { padding: 8rem 10px; }
+  }
+
+  .window {
+    max-width: fit-content;
+    margin-inline: auto;
+    border: 1px solid var(--neutral);
+    box-shadow: 4px 4px 0 0 var(--background-darker);
+
+    .top-bar {
+      background-color: var(--foreground);
+      color: var(--background-darker);
+      text-transform: uppercase;
+      padding: 2px 6px;
+    }
+
+    .viewport {
+      display: flex;
+      .icon {
+        padding: 16px 8px 16px 16px;
+        img {
+          padding: 6px;
+          height: 36px;
+          min-width: 36px;
+          background-color: var(--primary);
+          @media (width >= 32em) { padding: 12px; height: 60px; min-width: auto; }
+          @media (width >= 54.01em) { height: 78px; }
+        }
+        @media (width >= 32em) { padding: 16px; }
+      }
+      .content {
+        padding: 12px 16px 12px 6px;
+        p.title {
+          font-size: 1rem;
+          font-weight: 500;
+          text-transform: uppercase;
+          @media (width >= 32em) { font-size: 1.25rem; }
+          @media (width >= 54.01em) { font-size: 1.625rem; }
+          /* desktop value lives in the global CSS */
+          @media (width < 54.01em) { line-height: 1; }
+        }
+        .buttons {
+          text-align: right;
+          margin-top: 1.625rem;
+          button {
+            padding: 0;
+            background-color: transparent;
+            color: var(--background-darker);
+            cursor: no-drop;
+          }
+          a {
+            padding: 6px 12px;
+            background-color: var(--background-darker);
+            color: var(--foreground);
+            margin-left: 2ch;
+            &:hover { background-color: var(--foreground); color: var(--background); }
+            @media (width >= 32em) { padding: .5rem 1rem; }
+          }
+          /* desktop value lives in the global CSS */
+          .button {
+            @media (width < 32em) { font-size: .875rem; }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+#faq {  
+  .content {
+    display: block;
+    
+    .section-header {
+      height: max-content;
+      border-bottom: 1px solid var(--neutral);
+      p { margin-bottom: .625rem; }
+      a { margin-top: 1rem; margin-left: 5px; }
+    }
+    .divider { background-color: var(--neutral); }
+    .container {
+      padding: 1rem 24px;
+
+      div + div {
+        margin-top: .75rem;
+        padding-top: .75rem;
+        border-top: 1px solid var(--neutral);
+      }
+      .q {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        p {
+          font-size: 1.125rem;
+          font-weight: 500;
+          &:hover, &.active { color: var(--primary-darker); }
+        }
+      }
+      .a {
+        display: none;
+        margin-top: .25rem;
+      }
+    }
+
+    @media (width >= 54.01em) {
+      display: grid;
+      grid-template-columns: 2fr 1px 3fr;
+    }
+  }
+}
+
+
+#kapcsolat {
+  .contact-container {
+    display: block;
+
+    > div:not(.divider) { padding: 1rem 24px; }
+    .divider { background-color: var(--neutral); }
+    .text {
+      border-bottom: 1px solid var(--neutral);
+      height: max-content;
+      h3 { font-size: 2.125rem; line-height: 1.2; }
+      p { font-size: 1.125rem; margin-bottom: 1rem; }
+      ul {
+        margin-block: 1.625rem .625rem;
+        li {
+          margin-top: .625rem;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          font-size: 1.25rem;
+          font-weight: 500;
+          img {
+            height: 2.375rem;
+            padding: .3rem;
+            background-color: var(--primary);
+            border: 2px solid var(--primary-dark);
+            box-shadow: 2px 2px 0 0 var(--primary-darker);
+          }
+        }
+      }
+    }
+    form {
+      place-self: center;
+      width: 100%;
+      max-width: 400px;
+      .cols-2 {
+        display: block;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        @media (width >= 32em) { display: grid; }
+      }
+      .field {
+        margin-top: .625rem;
+        display: flex;
+        flex-direction: column;
+        input, select, textarea {
+          min-width: 0;
+          width: 100%;
+          padding: .5rem 16px .4rem;
+          background-color: var(--background-dark);
+          border: 1px solid var(--neutral);
+          border-radius: 0px;
+          &::placeholder { color: var(--neutral-dark); }
+        }
+        select { color-scheme: only dark; }
+        textarea { min-height: 5lh; }
+      }
+      button { margin-block: 1rem .625rem; width: 100%; }
+    }
+
+    @media (width >= 54.01em) {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+    }
+  }
+}
+
+
+@keyframes marquee {
+  to {
+    transform: translateX(calc(-100% - var(--marquee-gap)));
+  }
+}

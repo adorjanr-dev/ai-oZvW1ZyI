@@ -30,7 +30,6 @@
       display: flex;
       align-items: center;
       gap: 26px;
-      > * { font-size: 1.125rem; }
       > a:has(.to-right) {
         position: relative;
         .to-right {
@@ -479,7 +478,6 @@
       .a {
         display: none;
         margin-top: 0;
-        font-size: 1rem;
       }
     }
   }
@@ -532,6 +530,7 @@
           padding: .5rem 16px .4rem;
           background-color: var(--background-dark);
           border: 1px solid var(--neutral);
+          border-radius: 0px;
           &::placeholder { color: var(--neutral-dark); }
         }
         select { color-scheme: only dark; }
